@@ -59,18 +59,149 @@ private:
 
 int main() {
     // 상품, 고객, 주문 객체 생성 및 관리 예제
-    Product product1("T-shirt", 19.99);
-    Customer customer1("John Doe", "123 Main St");
-    Order order1(customer1, product1, 2);
+    std::string productName;
+    double productPrice;
+    std::string customerName;
+    std::string customerAddress;
+    int orderQuantity;
 
-    std::cout << "Product: " << order1.getProduct().getName() << ", Price: $" << order1.getProduct().getPrice() << std::endl;
-    std::cout << "Customer: " << order1.getCustomer().getName() << ", Address: " << order1.getCustomer().getAddress() << std::endl;
-    std::cout << "Quantity: " << order1.getQuantity() << std::endl;
+    std::cout << "상품명을 입력하세요: ";
+    std::getline(std::cin, productName);
+    std::cout << "가격을 입력하세요: ";
+    std::cin >> productPrice;
+    std::cin.ignore(32767, '\n'); // cin 버퍼 비우기
+
+    std::cout << "고객명을 입력하세요: ";
+    std::getline(std::cin, customerName);
+    std::cout << "주소를 입력하세요: ";
+    std::getline(std::cin, customerAddress);
+
+    std::cout << "주문 수량을 입력하세요: ";
+    std::cin >> orderQuantity;
+
+    Product product(productName, productPrice);
+    Customer customer(customerName, customerAddress);
+    Order order(customer, product, orderQuantity);
+
+    std::cout << "상품: " << order.getProduct().getName() << ", 가격: $" << order.getProduct().getPrice() << std::endl;
+    std::cout << "고객명: " << order.getCustomer().getName() << ", 주소: " << order.getCustomer().getAddress() << std::endl;
+    std::cout << "주문 수량: " << order.getQuantity() << std::endl;
 
     return 0;
 }
 
 ~~~
 
-![image](https://user-images.githubusercontent.com/50895748/236740954-8f834dcc-3321-4ee9-bea9-ac00f4169a0a.png)
+#### using namespace std;
+~~~
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// 상품 클래스
+class Product {
+public:
+    Product(const string& name, double price) : name_(name), price_(price) {}
+
+    string getName() const { return name_; }
+    double getPrice() const { return price_; }
+
+    void setName(const string& name) { name_ = name; }
+    void setPrice(double price) { price_ = price; }
+
+private:
+    string name_;
+    double price_;
+};
+
+// 고객 클래스
+class Customer {
+public:
+    Customer(const string& name, const string& address) : name_(name), address_(address) {}
+
+    string getName() const { return name_; }
+    string getAddress() const { return address_; }
+
+    void setName(const string& name) { name_ = name; }
+    void setAddress(const string& address) { address_ = address; }
+
+private:
+    string name_;
+    string address_;
+};
+
+// 주문 클래스
+class Order {
+public:
+    Order(const Customer& customer, const Product& product, int quantity)
+        : customer_(customer), product_(product), quantity_(quantity) {}
+
+    Customer getCustomer() const { return customer_; }
+    Product getProduct() const { return product_; }
+    int getQuantity() const { return quantity_; }
+
+    void setCustomer(const Customer& customer) { customer_ = customer; }
+    void setProduct(const Product& product) { product_ = product; }
+    void setQuantity(int quantity) { quantity_ = quantity; }
+
+private:
+    Customer customer_;
+    Product product_;
+    int quantity_;
+};
+
+int main() {
+    // 상품, 고객, 주문 객체 생성 및 관리 예제
+    string productName;
+    double productPrice;
+    string customerName;
+    string customerAddress;
+    int orderQuantity;
+
+    cout << "상품명을 입력하세요: ";
+    getline(cin, productName);
+    cout << "가격을 입력하세요: ";
+    cin >> productPrice;
+    cin.ignore(32767, '\n'); // cin 버퍼 비우기
+
+    cout << "고객명을 입력하세요: ";
+    getline(cin, customerName);
+    cout << "주소를 입력하세요: ";
+    getline(cin, customerAddress);
+
+    cout << "주문 수량을 입력하세요: ";
+    cin >> orderQuantity;
+
+    Product product(productName, productPrice);
+    Customer customer(customerName, customerAddress);
+    Order order(customer, product, orderQuantity);
+
+    cout << "상품: " << order.getProduct().getName() << ", 가격: $" << order.getProduct().getPrice() << endl;
+    cout << "고객명: " << order.getCustomer().getName() << ", 주소: " << order.getCustomer().getAddress() << endl;
+    cout << "주문 수량: " << order.getQuantity() << endl;
+
+    return 0;
+}
+
+~~~
+
+### 코드 설명
+
+ 이 코드는 C++을 사용하여 상품, 고객, 주문 객체를 생성하고 관리하는 예제입니다. 클래스를 사용하여 객체를 모델링하고 생성하며, 객체의 상태를 변경하기 위해 public 멤버 함수를 사용합니다.
+
+ 먼저, 상품 클래스(Product)는 상품명(name)과 가격(price)을 멤버 변수로 가지며, 생성자에서 초기화합니다. getName(), getPrice() 함수를 사용하여 상품명과 가격을 가져올 수 있습니다. setName(), setPrice() 함수를 사용하여 상품명과 가격을 변경할 수 있습니다.
+
+ 고객 클래스(Customer)는 이름(name)과 주소(address)를 멤버 변수로 가지며, 생성자에서 초기화합니다. getName(), getAddress() 함수를 사용하여 이름과 주소를 가져올 수 있습니다. setName(), setAddress() 함수를 사용하여 이름과 주소를 변경할 수 있습니다.
+
+ 주문 클래스(Order)는 고객(Customer)과 상품(Product), 수량(quantity)을 멤버 변수로 가지며, 생성자에서 초기화합니다. getCustomer(), getProduct(), getQuantity() 함수를 사용하여 고객, 상품, 수량을 가져올 수 있습니다. setCustomer(), setProduct(), setQuantity() 함수를 사용하여 고객, 상품, 수량을 변경할 수 있습니다.
+
+ main() 함수에서는 사용자로부터 상품명, 가격, 고객명, 주소, 주문 수량을 입력받고, Product, Customer, Order 객체를 생성하여 초기화합니다. getOrder().getProduct().getName(), getOrder().getCustomer().getName()과 같은 방법으로 객체의 속성을 출력할 수 있습니다.
+
+
+
+
+
 
