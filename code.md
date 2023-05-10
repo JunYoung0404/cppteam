@@ -201,7 +201,7 @@ int main() {
  main() 함수에서는 사용자로부터 상품명, 가격, 고객명, 주소, 주문 수량을 입력받고, Product, Customer, Order 객체를 생성하여 초기화합니다. getOrder().getProduct().getName(), getOrder().getCustomer().getName()과 같은 방법으로 객체의 속성을 출력할 수 있습니다.
 
 
-
+~~~
 #include <iostream>
 #include <vector>
 #include <string>
@@ -341,6 +341,7 @@ while (true) {
         cout << "잘못된 입력입니다. 다시 입력해주세요." << endl;
     }
 }
+                                               ~~~
 
 cout << "주문한 상품 목록:" << endl;
 for (int i = 0; i < order.getProducts().size(); ++i) {
