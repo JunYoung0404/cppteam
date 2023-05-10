@@ -202,6 +202,152 @@ int main() {
 
 
 
+#include <iostream>
+#include <vector>
+#include <string>
 
+using namespace std;
+
+// 상품 클래스
+class Product {
+public:
+    Product(const string& name, double price) : name_(name), price_(price) {}
+
+    string getName() const { return name_; }
+    double getPrice() const { return price_; }
+
+    void setName(const string& name) { name_ = name; }
+    void setPrice(double price) { price_ = price; }
+
+private:
+    string name_;
+    double price_;
+};
+
+// 고객 클래스
+class Customer {
+public:
+    Customer(const string& name, const string& address) : name_(name), address_(address) {}
+
+    string getName() const { return name_; }
+    string getAddress() const { return address_; }
+
+    void setName(const string& name) { name_ = name; }
+    void setAddress(const string& address) { address_ = address; }
+
+private:
+    string name_;
+    string address_;
+};
+
+// 주문 클래스
+class Order {
+public:
+    Order(const Customer& customer, const Product& product, int quantity)
+        : customer_(customer), quantity_(quantity) {
+            for (int i = 0; i < quantity; ++i) {
+                products_.push_back(product);
+            }
+        }
+
+    Customer getCustomer() const { return customer_; }
+    const vector<Product>& getProducts() const { return products_; }
+
+    void addProduct(const Product& product) {
+        products_.push_back(product);
+    }
+
+    void removeProduct(int index) {
+        if (index >= 0 && index < products_.size()) {
+            products_.erase(products_.begin() + index);
+        }
+    }
+
+private:
+    Customer customer_;
+    vector<Product> products_;
+    int quantity_;
+};
+
+int main() {
+    // 상품, 고객, 주문 객체 생성 및 관리 예제
+    string productName;
+    double productPrice;
+    string customerName;
+    string customerAddress;
+    int orderQuantity;
+
+    cout << "상품명을 입력하세요: ";
+    getline(cin, productName);
+    cout << "가격을 입력하세요: ";
+    cin >> productPrice;
+    cin.ignore(32767, '\n'); // cin 버퍼 비우기
+
+    cout << "고객명을 입력하세요: ";
+    getline(cin, customerName);
+    cout << "주소를 입력하세요: ";
+    getline(cin, customerAddress);
+
+    cout << "주문 수량을 입력하세요: ";
+    cin >> orderQuantity;
+
+    Product product(productName, productPrice);
+    Customer customer(customerName, customerAddress);
+    Order order(customer, product, orderQuantity);
+
+    cout << "상품: " << order.getProducts()[0].getName() << ", 가격: $" << order.getProducts()[0].getPrice() << endl;
+    cout << "고객명: " << order.getCustomer().getName() << ", 주소: " << order.getCustomer().getAddress() << endl;
+
+    string action;
+while (true) {
+    cout << "추가 상품을 입력하려면 '추가', 삭제하려면 '삭제', 종료하려면 '종료'를 입력하세요: ";
+    getline(cin, action);
+
+    if (action == "추가") {
+        cout << "상품명을 입력하세요: ";
+        getline(cin, productName);
+        cout << "가격을 입력하세요: ";
+        cin >> productPrice;
+        cin.ignore(32767, '\n'); // cin 버퍼 비우기
+
+        Product newProduct(productName, productPrice);
+        order.addProduct(newProduct);
+
+        cout << "상품이 추가되었습니다." << endl;
+    }
+    else if (action == "삭제") {
+        if (order.getProducts().empty()) {
+            cout << "삭제할 상품이 없습니다." << endl;
+        }
+        else {
+            cout << "삭제할 상품의 인덱스 값을 입력하세요: ";
+            int index;
+            cin >> index;
+            cin.ignore(32767, '\n'); // cin 버퍼 비우기
+
+            if (index >= 1 && index <= order.getProducts().size()) {
+                order.removeProduct(index - 1);
+                cout << "상품이 삭제되었습니다." << endl;
+            }
+            else {
+                cout << "유효하지 않은 인덱스 값입니다. 다시 입력해주세요." << endl;
+            }
+        }
+    }
+    else if (action == "종료") {
+        break;
+    }
+    else {
+        cout << "잘못된 입력입니다. 다시 입력해주세요." << endl;
+    }
+}
+
+cout << "주문한 상품 목록:" << endl;
+for (int i = 0; i < order.getProducts().size(); ++i) {
+    cout << i + 1 << ". 상품: " << order.getProducts()[i].getName() << ", 가격: $" << order.getProducts()[i].getPrice() << endl;
+}
+
+return 0;
+}
 
 
