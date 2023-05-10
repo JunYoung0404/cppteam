@@ -316,24 +316,31 @@ while (true) {
         cout << "상품이 추가되었습니다." << endl;
     }
     else if (action == "삭제") {
-        if (order.getProducts().empty()) {
-            cout << "삭제할 상품이 없습니다." << endl;
+    if (order.getProducts().empty()) {
+        cout << "삭제할 상품이 없습니다." << endl;
+    }
+    else {
+        cout << "삭제할 상품의 이름을 입력하세요: ";
+        string productName;
+        getline(cin, productName);
+
+        bool found = false;
+        for (int i = 0; i < order.getProducts().size(); ++i) {
+            if (order.getProducts()[i].getName() == productName) {
+                order.removeProduct(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            cout << "상품이 삭제되었습니다." << endl;
         }
         else {
-            cout << "삭제할 상품의 인덱스 값을 입력하세요: ";
-            int index;
-            cin >> index;
-            cin.ignore(32767, '\n'); // cin 버퍼 비우기
-
-            if (index >= 1 && index <= order.getProducts().size()) {
-                order.removeProduct(index - 1);
-                cout << "상품이 삭제되었습니다." << endl;
-            }
-            else {
-                cout << "유효하지 않은 인덱스 값입니다. 다시 입력해주세요." << endl;
-            }
+            cout << "상품을 찾을 수 없습니다." << endl;
         }
     }
+}
     else if (action == "종료") {
         break;
     }
@@ -341,7 +348,7 @@ while (true) {
         cout << "잘못된 입력입니다. 다시 입력해주세요." << endl;
     }
 }
-                                               ~~~
+                                              
 
 cout << "주문한 상품 목록:" << endl;
 for (int i = 0; i < order.getProducts().size(); ++i) {
@@ -350,5 +357,6 @@ for (int i = 0; i < order.getProducts().size(); ++i) {
 
 return 0;
 }
+~~~
 
 
