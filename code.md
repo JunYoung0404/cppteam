@@ -253,21 +253,33 @@ public:
     Customer getCustomer() const { return customer_; }
     const vector<Product>& getProducts() const { return products_; }
 
-    void addProduct(const Product& product) {
-        products_.push_back(product);
-    }
-
-    void removeProduct(int index) {
-        if (index >= 0 && index < products_.size()) {
-            products_.erase(products_.begin() + index);
+    void addProduct(const Product& product, int quantity = 1) {
+        for (int i = 0; i < quantity; ++i) {
+            products_.push_back(product);
         }
     }
 
-    void removeProduct(const string& productName) {
+    void removeProduct(int index, int quantity = 1) {
+        if (index >= 0 && index < products_.size()) {
+            if (quantity >= products_.size() - index) {
+                products_.erase(products_.begin() + index, products_.end());
+            } else {
+                products_.erase(products_.begin() + index, products_.begin() + index + quantity);
+            }
+        }
+    }
+
+    void removeProduct(const string& productName, int quantity = 1) {
+        int count = 0;
         for (int i = 0; i < products_.size(); ++i) {
             if (products_[i].getName() == productName) {
-                products_.erase(products_.begin() + i);
-                break;
+                if (count < quantity) {
+                    products_.erase(products_.begin() + i);
+                    ++count;
+                    --i;
+                } else {
+                    break;
+                }
             }
         }
     }
@@ -309,7 +321,7 @@ int main() {
     cout << "고객명: " << order.getCustomer().getName() << ", 주소: " << order.getCustomer().getAddress() << endl;
 
     while (1) {
-        cout << "추가 상품을 입력하려면 ' 추가', 삭제하려면 '삭제', 종료하려면 '종료'를 입력하세요: ";
+        cout << "추가 상품을 입력하려면 '추가', 삭제하려면 '삭제', 종료하려면 '종료'를 입력하세요: ";
         cin >> action;
         cin.ignore(32767, '\n');
 
@@ -321,24 +333,30 @@ int main() {
             cin.ignore(32767, '\n'); // cin 버퍼 비우기
 
             Product newProduct(productName, productPrice);
-            order.addProduct(newProduct);
+
+            cout << "상품 수량을 입력하세요: ";
+            cin >> orderQuantity;
+            cin.ignore(32767, '\n'); // cin 버퍼 비우기
+
+            order.addProduct(newProduct, orderQuantity);
 
             cout << "상품이 추가되었습니다." << endl;
-        }
-        else if (action == "삭제") {
+        } else if (action == "삭제") {
             if (order.getProducts().empty()) {
                 cout << "삭제할 상품이 없습니다." << endl;
-            }
-            else {
+            } else {
                 cout << "삭제할 상품의 상품명을 입력하세요: ";
                 getline(cin, productName);
 
-                order.removeProduct(productName);
+                cout << "삭제할 상품 수량을 입력하세요: ";
+                cin >> orderQuantity;
+                cin.ignore(32767, '\n'); // cin 버퍼 비우기
+
+                order.removeProduct(productName, orderQuantity);
 
                 cout << "상품이 삭제되었습니다." << endl;
             }
-        }
-        else if (action == "종료") {
+        } else if (action == "종료") {
             break;
         }
     }
