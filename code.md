@@ -656,16 +656,16 @@ int main() {
     string action;
     string menu;
 
+	cout << "고객명을 입력하세요: ";
+    getline(cin, customerName);
+    cout << "주소를 입력하세요: ";
+    getline(cin, customerAddress);
+    
     cout << "상품명을 입력하세요: ";
     getline(cin, productName);
     cout << "가격을 입력하세요: ";
     cin >> productPrice;
     cin.ignore(32767, '\n'); // cin 버퍼 비우기
-    
-    cout << "고객명을 입력하세요: ";
-    getline(cin, customerName);
-    cout << "주소를 입력하세요: ";
-    getline(cin, customerAddress);
 
     cout << "주문 수량을 입력하세요: ";
     cin >> orderQuantity;
@@ -675,16 +675,18 @@ int main() {
 	Customer customer(customerName, customerAddress);
 	Order order(customer, product, orderQuantity);
 
+	cout << "=====================\n";
 	cout << "현재 주문 내역: " << endl;
 	cout << "상품명: " << product.getName() << endl;
 	cout << "가격: " << product.getPrice() << endl;
 	cout << "주문 수량: " << orderQuantity << endl;
 	cout << "고객명: " << customer.getName() << endl;
 	cout << "고객 주소: " << customer.getAddress() << endl;
+	cout << "=====================\n";
 
 // 상품 추가 예제
 	while(1){
-		printf("1.상품추가\n2.상품제거\n3.고객정보변경\n4. 출력\n");
+		printf("================\n1.상품추가\n2.상품제거\n3.고객정보변경\n4. 출력\n================");
 		getline(cin, menu);
 		
 		if(menu == "1"){
@@ -718,7 +720,7 @@ int main() {
 			   		cin >> action;
 			   		cin.ignore(32767, '\n');
 				} 
-			}제 
+			} 
 		}
 		
 		if(menu == "2"){
@@ -728,15 +730,13 @@ int main() {
 			while(action == "y"){
 				cout << "삭제할  상품명을 입력하세요: ";
 				getline(cin,productName);
-				if (isdigit(action[0])) {
 		   		order.removeProduct(productName);
-				}
 				cout << "더 삭제하시겠습니까? (y/n) ";
 				cin >> action;
 				cin.ignore(32767, '\n');
 				if(action != "y" && action != "n"){
 			    	printf("y 또는 n 를 입력해 주세요\n");
-					cout << "더 삭하시겠습니까? (y/n) ";
+					cout << "더 삭제하시겠습니까? (y/n) ";
 			   		cin >> action;
 			   		cin.ignore(32767, '\n');
 				} 
@@ -755,6 +755,7 @@ int main() {
 		}
 		
 		if(menu == "4"){
+			cout << "=====================\n";
 			cout << "고객명: " << customer.getName() << endl;
 			cout << "고객 주소: " << customer.getAddress() << endl;
 			cout << "상품 리스트: " << endl;
@@ -762,6 +763,7 @@ int main() {
 			for (int i = 0; i < productList.size(); ++i) {
 			    cout << i << ". " << productList[i].getName() << " - 가격 : " << productList[i].getPrice() << endl;
 			}
+			cout << "=====================\n";
 			continue;
 		}
 	}
