@@ -486,8 +486,13 @@ cout << "고객명: " << customer.getName() << endl;
 cout << "고객 주소: " << customer.getAddress() << endl;
 
 // 상품 추가 예제
-cout << "더 추가하시겠습니까? (y/n) ";
-cin >> action;
+	cout << "더 추가하시겠습니까? (y/n) ";
+	cin >> action;
+    if(action != "y" && action != "n"){
+    	printf("y 또는 n 를 입력해 주세요\n");
+		cout << "더 추가하시겠습니까? (y/n) ";
+   		cin >> action;
+	} 
 
 while (action == "y") {
     cout << "추가할 상품명을 입력하세요: ";
@@ -504,10 +509,15 @@ while (action == "y") {
 
     cout << "더 추가하시겠습니까? (y/n) ";
     cin >> action;
+    if(action != "y" && action != "n"){
+    	printf("y 또는 n 를 입력해 주세요\n");
+		cout << "더 추가하시겠습니까? (y/n) ";
+   		cin >> action;
+	} 
 }
 
 // 상품 삭제 예제
-cout << "어떤 상품을 삭제하시겠습니까? (상품명 또는 인덱스) ";
+cout << "어떤 상품을 삭제하시겠습니까?";
 cin.ignore(32767, '\n');
 getline(cin, action);
 
