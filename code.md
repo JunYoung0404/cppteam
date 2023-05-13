@@ -761,7 +761,7 @@ int main() {
 			cout << "상품 리스트: " << endl;
 			const vector<Product>& productList = order.getProducts();
 			for (int i = 0; i < productList.size(); ++i) {
-			    cout << i << ". " << productList[i].getName() << " - 가격 : " << productList[i].getPrice() << endl;
+			    cout << i+1 << "번 주문 " << productList[i].getName() << " - 가격 : " << productList[i].getPrice() <<"원"<< endl;
 			}
 			cout << "=====================\n";
 			continue;
