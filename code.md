@@ -375,6 +375,7 @@ int main() {
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 
@@ -429,16 +430,12 @@ public:
     Customer getCustomer() const { return customer_; }
     const vector<Product>& getProducts() const { return products_; }
 
-    void addProduct(const Product& product) {
-        products_.push_back(product);
-    }
-
-    void removeProduct(int index) {
-        if (index >= 0 && index < products_.size()) {
-            products_.erase(products_.begin() + index);
+    void addProduct(const Product& product , int quantity) {
+        for (int i = 0; i < quantity; ++i) {
+            products_.push_back(product);
         }
     }
-
+    
     void removeProduct(const string& productName) {
         for (int i = 0; i < products_.size(); ++i) {
             if (products_[i].getName() == productName) {
@@ -499,9 +496,11 @@ while (action == "y") {
     cout << "가격을 입력하세요: ";
     cin >> productPrice;
     cin.ignore(32767, '\n');
+    cout << "추가  수량을 입력하세요: ";
+    cin >> orderQuantity;
 
     Product newProduct(productName, productPrice);
-    order.addProduct(newProduct);
+    order.addProduct(newProduct,orderQuantity);
 
     cout << "더 추가하시겠습니까? (y/n) ";
     cin >> action;
@@ -513,9 +512,6 @@ cin.ignore(32767, '\n');
 getline(cin, action);
 
 if (isdigit(action[0])) {
-    int index = stoi(action);
-    order.removeProduct(index);
-} else {
     order.removeProduct(action);
 }
 
@@ -528,7 +524,7 @@ cout << "고객 주소: " << customer.getAddress() << endl;
 cout << "상품 리스트: " << endl;
 const vector<Product>& productList = order.getProducts();
 for (int i = 0; i < productList.size(); ++i) {
-    cout << i << ". " << productList[i].getName() << " - " << productList[i].getPrice() << endl;
+    cout << i << ". " << productList[i].getName() << " - 가격 : " << productList[i].getPrice() << endl;
 }
 
 return 0;
