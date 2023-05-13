@@ -406,6 +406,7 @@ public:
     void setName(const string& name) { name_ = name; }
     void setPrice(double price) { price_ = price; }
 
+	
 private:
     string name_;
     double price_;
@@ -459,6 +460,7 @@ int main() {
     string customerAddress;
     int orderQuantity;
     string action;
+    string menu;
 
     cout << "상품명을 입력하세요: ";
     getline(cin, productName);
@@ -473,70 +475,91 @@ int main() {
 
     cout << "주문 수량을 입력하세요: ";
     cin >> orderQuantity;
+    cin.ignore(32767, '\n');
 
     Product product(productName, productPrice);
-Customer customer(customerName, customerAddress);
-Order order(customer, product, orderQuantity);
+	Customer customer(customerName, customerAddress);
+	Order order(customer, product, orderQuantity);
 
-cout << "현재 주문 내역: " << endl;
-cout << "상품명: " << product.getName() << endl;
-cout << "가격: " << product.getPrice() << endl;
-cout << "주문 수량: " << orderQuantity << endl;
-cout << "고객명: " << customer.getName() << endl;
-cout << "고객 주소: " << customer.getAddress() << endl;
+	cout << "현재 주문 내역: " << endl;
+	cout << "상품명: " << product.getName() << endl;
+	cout << "가격: " << product.getPrice() << endl;
+	cout << "주문 수량: " << orderQuantity << endl;
+	cout << "고객명: " << customer.getName() << endl;
+	cout << "고객 주소: " << customer.getAddress() << endl;
 
 // 상품 추가 예제
-	cout << "더 추가하시겠습니까? (y/n) ";
-	cin >> action;
-    if(action != "y" && action != "n"){
-    	printf("y 또는 n 를 입력해 주세요\n");
-		cout << "더 추가하시겠습니까? (y/n) ";
-   		cin >> action;
-	} 
-
-while (action == "y") {
-    cout << "추가할 상품명을 입력하세요: ";
-    cin.ignore(32767, '\n');
-    getline(cin, productName);
-    cout << "가격을 입력하세요: ";
-    cin >> productPrice;
-    cin.ignore(32767, '\n');
-    cout << "추가  수량을 입력하세요: ";
-    cin >> orderQuantity;
-
-    Product newProduct(productName, productPrice);
-    order.addProduct(newProduct,orderQuantity);
-
-    cout << "더 추가하시겠습니까? (y/n) ";
-    cin >> action;
-    if(action != "y" && action != "n"){
-    	printf("y 또는 n 를 입력해 주세요\n");
-		cout << "더 추가하시겠습니까? (y/n) ";
-   		cin >> action;
-	} 
-}
-
-// 상품 삭제 예제
-cout << "어떤 상품을 삭제하시겠습니까?";
-cin.ignore(32767, '\n');
-getline(cin, action);
-
-if (isdigit(action[0])) {
-    order.removeProduct(action);
-}
-
-cout << "현재 주문 내역: " << endl;
-cout << "상품명: " << product.getName() << endl;
-cout << "가격: " << product.getPrice() << endl;
-cout << "주문 수량: " << orderQuantity << endl;
-cout << "고객명: " << customer.getName() << endl;
-cout << "고객 주소: " << customer.getAddress() << endl;
-cout << "상품 리스트: " << endl;
-const vector<Product>& productList = order.getProducts();
-for (int i = 0; i < productList.size(); ++i) {
-    cout << i << ". " << productList[i].getName() << " - 가격 : " << productList[i].getPrice() << endl;
-}
-
-return 0;
+	while(1){
+		printf("1.상품추가\n2.상품제거\n3.고객정보변경\n4. 출력\n");
+		getline(cin, menu);
+		
+		if(menu == "1"){
+			cout << "더 추가하시겠습니까? (y/n) ";
+			cin >> action;
+	    	if(action != "y" && action != "n"){
+	    	printf("y 또는 n 를 입력해 주세요\n");
+			cout << "더 추가하시겠습니까? (y/n) ";
+	   		cin >> action;
+	   		cin.ignore(32767, '\n');
+			}
+			while (action == "y") {
+			    cout << "추가할 상품명을 입력하세요: ";
+			    getline(cin, productName);
+			    cout << "가격을 입력하세요: ";
+			    cin >> productPrice;
+			    cin.ignore(32767, '\n');
+			    cout << "추가  수량을 입력하세요: ";
+			    cin >> orderQuantity;
+			
+			    Product newProduct(productName, productPrice);
+			    order.addProduct(newProduct,orderQuantity);
+			
+			    cout << "더 추가하시겠습니까? (y/n) ";
+			    cin >> action;
+			    if(action != "y" && action != "n"){
+			    	printf("y 또는 n 를 입력해 주세요\n");
+					cout << "더 추가하시겠습니까? (y/n) ";
+			   		cin >> action;
+			   		cin.ignore(32767, '\n');
+				} 
+			}
+		}
+		
+		if(menu == "2"){
+			cout << "상품을 삭제하시겠습니까?(y/n)";
+			cin >>action; 
+			cin.ignore(32767, '\n');
+			while(action == "y"){
+				cout << "삭제할  상품명을 입력하세요: ";
+				getline(cin,productName);
+				if (isdigit(action[0])) {
+		   		order.removeProduct(productName);
+				}
+				cout << "더 삭제하시겠습니까? (y/n) ";
+				cin >> action;
+				cin.ignore(32767, '\n');
+			}
+		}
+	
+		if(menu == "3"){
+			cout << "고객명을 입력하세요: ";
+			getline(cin, customerName);
+	    	cout << "주소를 입력하세요: ";
+	    	getline(cin, customerAddress);
+	    	customer.setName(customerName);
+	    	customer.setAddress(customerAddress);
+		}
+		
+		if(menu == "4"){
+			cout << "고객명: " << customer.getName() << endl;
+			cout << "고객 주소: " << customer.getAddress() << endl;
+			cout << "상품 리스트: " << endl;
+			const vector<Product>& productList = order.getProducts();
+			for (int i = 0; i < productList.size(); ++i) {
+			    cout << i << ". " << productList[i].getName() << " - 가격 : " << productList[i].getPrice() << endl;
+			}
+		}
+		continue;
+	}
 }
 ~~~
