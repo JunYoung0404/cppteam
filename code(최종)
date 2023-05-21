@@ -213,13 +213,11 @@ int main() {
             Customer newCustomer(productName, customerAddress);
             order.updateCustomer(customerName, newCustomer);
 
-        } else if (menu == "4") {
-            cout << "현재 주문 내역: " << endl;
-            cout << "상품명: " << product.getName() << endl;
-            cout << "가격: " << product.getPrice() << endl;
-            cout << "주문 수량: " << order.getQuantity() << endl;
-            cout << "고객명: " << customer.getName() << endl;
-            cout << "고객 주소: " << customer.getAddress() << endl;
+        } else if(menu == "4"){
+			const vector<Product>& productList = order.getProducts();
+			for (int i = 0; i < productList.size(); ++i) {
+			    cout << i+1 << "번 주문 " << productList[i].getName() << " - 가격 : " << productList[i].getPrice() <<"원"<< endl;
+			}
 
         } else if (menu == "5") {
             cout << "추가할 고객명을 입력하세요: ";
@@ -248,4 +246,3 @@ int main() {
 
     return 0;
 }
-
